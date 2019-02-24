@@ -132,4 +132,61 @@ defmodule ShareBooksApi.LibrariesTest do
       assert %Ecto.Changeset{} = Libraries.change_book(book)
     end
   end
+
+  describe "rents" do
+    alias ShareBooksApi.Libraries.Rent
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def rent_fixture(attrs \\ %{}) do
+      {:ok, rent} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Libraries.create_rent()
+
+      rent
+    end
+
+    test "list_rents/0 returns all rents" do
+      rent = rent_fixture()
+      assert Libraries.list_rents() == [rent]
+    end
+
+    test "get_rent!/1 returns the rent with given id" do
+      rent = rent_fixture()
+      assert Libraries.get_rent!(rent.id) == rent
+    end
+
+    test "create_rent/1 with valid data creates a rent" do
+      assert {:ok, %Rent{} = rent} = Libraries.create_rent(@valid_attrs)
+    end
+
+    test "create_rent/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Libraries.create_rent(@invalid_attrs)
+    end
+
+    test "update_rent/2 with valid data updates the rent" do
+      rent = rent_fixture()
+      assert {:ok, %Rent{} = rent} = Libraries.update_rent(rent, @update_attrs)
+    end
+
+    test "update_rent/2 with invalid data returns error changeset" do
+      rent = rent_fixture()
+      assert {:error, %Ecto.Changeset{}} = Libraries.update_rent(rent, @invalid_attrs)
+      assert rent == Libraries.get_rent!(rent.id)
+    end
+
+    test "delete_rent/1 deletes the rent" do
+      rent = rent_fixture()
+      assert {:ok, %Rent{}} = Libraries.delete_rent(rent)
+      assert_raise Ecto.NoResultsError, fn -> Libraries.get_rent!(rent.id) end
+    end
+
+    test "change_rent/1 returns a rent changeset" do
+      rent = rent_fixture()
+      assert %Ecto.Changeset{} = Libraries.change_rent(rent)
+    end
+  end
 end

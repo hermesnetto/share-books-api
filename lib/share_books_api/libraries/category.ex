@@ -4,6 +4,7 @@ defmodule ShareBooksApi.Libraries.Category do
 
   schema "categories" do
     field :title, :string
+    has_many :books, ShareBooksApi.Libraries.Book
 
     timestamps()
   end

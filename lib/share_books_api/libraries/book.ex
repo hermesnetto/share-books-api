@@ -7,7 +7,7 @@ defmodule ShareBooksApi.Libraries.Book do
     field :description, :string
     field :image, :string
     field :is_rented, :boolean, default: false
-    field :publication_year, :date
+    field :publication_date, :string
     field :publisher, :string
     field :title, :string
     belongs_to :user, ShareBooksApi.Accounts.User
@@ -19,7 +19,7 @@ defmodule ShareBooksApi.Libraries.Book do
   @doc false
   def changeset(book, attrs) do
     book
-    |> cast(attrs, [:title, :description, :author, :publisher, :publication_year, :image, :is_rented])
+    |> cast(attrs, [:title, :description, :author, :publisher, :publication_date, :image, :is_rented])
     |> validate_required([:title, :is_rented])
   end
 end

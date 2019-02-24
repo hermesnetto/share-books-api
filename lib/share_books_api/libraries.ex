@@ -7,6 +7,7 @@ defmodule ShareBooksApi.Libraries do
   alias ShareBooksApi.Repo
 
   alias ShareBooksApi.Libraries.Category
+  alias ShareBooksApi.Accounts.User
 
   @doc """
   Returns the list of categories.
@@ -64,6 +65,20 @@ defmodule ShareBooksApi.Libraries do
   end
 
   @doc """
+  Returns the list of books from a given user.
+  """
+  def list_books_by_user(user) do
+    Repo.all from p in Book, where: p.user_id == ^user.id
+  end
+
+  @doc """
+  Returns the list of books from a given category.
+  """
+  def list_books_by_category(category) do
+    Repo.all from p in Book, where: p.category_id == ^category.id
+  end
+
+  @doc """
   Gets a single book.
 
   Raises `Ecto.NoResultsError` if the Book does not exist.
@@ -100,5 +115,59 @@ defmodule ShareBooksApi.Libraries do
   """
   def change_book(%Book{} = book) do
     Book.changeset(book, %{})
+  end
+
+  alias ShareBooksApi.Libraries.Rent
+
+  @doc """
+  Returns the list of rents.
+  """
+  def list_rents do
+    Repo.all(Rent)
+  end
+
+  @doc """
+  Gets a single rent.
+
+  Raises `Ecto.NoResultsError` if the Rent does not exist.
+  """
+  def get_rent!(id), do: Repo.get!(Rent, id)
+
+  @doc """
+  Creates a rent.
+
+  ## Examples
+  """
+  def create_rent(attrs \\ %{}) do
+    %Rent{}
+    |> Rent.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a rent.
+
+  ## Examples
+  """
+  def update_rent(%Rent{} = rent, attrs) do
+    rent
+    |> Rent.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Rent.
+
+  ## Examples
+  """
+  def delete_rent(%Rent{} = rent) do
+    Repo.delete(rent)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking rent changes.
+  """
+  def change_rent(%Rent{} = rent) do
+    Rent.changeset(rent, %{})
   end
 end

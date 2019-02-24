@@ -7,6 +7,7 @@ defmodule ShareBooksApi.Accounts do
   alias ShareBooksApi.Repo
 
   alias ShareBooksApi.Accounts.User
+  alias ShareBooksApi.Libraries.Book
 
   @doc """
   Returns the list of users.

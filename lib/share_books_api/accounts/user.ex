@@ -6,6 +6,7 @@ defmodule ShareBooksApi.Accounts.User do
     field :email, :string
     field :encrypted_password, :string
     field :name, :string
+    has_many :books, ShareBooksApi.Libraries.Book
 
     timestamps()
   end
