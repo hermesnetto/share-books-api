@@ -43,4 +43,11 @@ defmodule ShareBooksApiWeb.Endpoint do
     signing_salt: "9qL2vIMb"
 
   plug ShareBooksApiWeb.Router
+
+  plug Plug.Parsers,
+    parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
+    json_decoder: Poison
+    
+  plug Absinthe.Plug,
+    schema: ShareBooksApiWeb.Schema
 end

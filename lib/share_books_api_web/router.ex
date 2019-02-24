@@ -1,26 +1,17 @@
 defmodule ShareBooksApiWeb.Router do
   use ShareBooksApiWeb, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-  end
-
   pipeline :api do
-    plug :accepts, ["json"]
+	  plug :accepts, ["json"]
   end
 
-  scope "/", ShareBooksApiWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
+  scope "/api" do
+    pipe_through :api
+    
+    forward "/graphiql", Absinthe.Plug.GraphiQL, 
+      schema: ShareBooksApiWeb.Schema
+      
+    forward "/", Absinthe.Plug, 
+      schema: ShareBooksApiWeb.Schema
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", ShareBooksApiWeb do
-  #   pipe_through :api
-  # end
 end
