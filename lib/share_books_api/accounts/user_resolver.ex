@@ -26,8 +26,8 @@ defmodule ShareBooksApi.Accounts.UserResolver do
     end
   end
 
-  def create(_parent, args, _info) do
-    Accounts.create_user(args)
+  def find(_args, %{context: %{current_user: nil}}) do
+    {:ok, %{}}
   end
 
   def login(%{email: email, password: password}, _info) do
@@ -38,7 +38,7 @@ defmodule ShareBooksApi.Accounts.UserResolver do
     end
   end
 
-  def logout(_args,  %{context: %{current_user: current_user, token: _token}}) do
+  def logout(_args,  %{context: %{current_user: current_user}}) do
     Accounts.revoke_token(current_user, nil)
     {:ok, current_user}
   end

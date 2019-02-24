@@ -2,7 +2,6 @@ defmodule ShareBooksApiWeb.Router do
   use ShareBooksApiWeb, :router
 
   pipeline :api do
-    plug ShareBooksApiWeb.Context
   end
 
   scope "/api" do

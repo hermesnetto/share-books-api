@@ -1,4 +1,4 @@
-defmodule ShareBooksApi.Context do
+defmodule ShareBooksApiWeb.Context do
   @behaviour Plug
  
   import Plug.Conn

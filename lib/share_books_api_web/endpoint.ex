@@ -45,6 +45,8 @@ defmodule ShareBooksApiWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
     json_decoder: Poison
+
+  plug ShareBooksApiWeb.Context
   
   plug Absinthe.Plug,
     schema: ShareBooksApiWeb.Schema
