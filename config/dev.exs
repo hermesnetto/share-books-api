@@ -60,7 +60,7 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :share_books_api, ShareBooksApi.Repo,
-  username: "postgres",
+  username: "pipefy",
   password: "postgres",
   database: "share_books_api_dev",
   hostname: "localhost",
