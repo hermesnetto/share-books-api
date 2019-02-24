@@ -7,7 +7,6 @@ defmodule ShareBooksApi.Accounts do
   alias ShareBooksApi.Repo
 
   alias ShareBooksApi.Accounts.User
-  alias ShareBooksApi.Libraries.Book
 
   @doc """
   Returns the list of users.
@@ -54,4 +53,22 @@ defmodule ShareBooksApi.Accounts do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+  @doc """
+  Store a user token
+  """
+  def store_token(%User{} = user, token) do
+    user
+    |> User.store_token_changeset(%{token: token})
+    |> Repo.update()
+  end
+
+  @doc """
+  Revoke a user token
+  """
+  def revoke_token(%User{} = user, token) do
+    user
+    |> User.store_token_changeset(%{token: token})
+    |> Repo.update()
+end
 end

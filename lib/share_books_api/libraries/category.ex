@@ -14,6 +14,6 @@ defmodule ShareBooksApi.Libraries.Category do
     category
     |> cast(attrs, [:title])
     |> validate_required([:title])
-    |> unique_constraint([:title])
+    |> unique_constraint(:title)
   end
 end

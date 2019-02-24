@@ -2,7 +2,7 @@ defmodule ShareBooksApiWeb.Router do
   use ShareBooksApiWeb, :router
 
   pipeline :api do
-	  plug :accepts, ["json"]
+    plug ShareBooksApiWeb.Context
   end
 
   scope "/api" do

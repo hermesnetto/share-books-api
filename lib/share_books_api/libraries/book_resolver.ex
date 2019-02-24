@@ -1,6 +1,5 @@
 defmodule ShareBooksApi.Libraries.BookResolver do
-  alias ShareBooksApi.Libraries
-  alias ShareBooksApi.Accounts
+  alias ShareBooksApi.{Libraries, Accounts}
 
   def all(_args, _info) do
     {:ok, Libraries.list_books()}
@@ -19,5 +18,10 @@ defmodule ShareBooksApi.Libraries.BookResolver do
       nil -> {:error, "Book not found!"}
       book -> {:ok, book}
     end
+  end
+
+  def create(_parent, args, _foo) do
+    IO.inspect args
+    # Libraries.create_book(args)
   end
 end

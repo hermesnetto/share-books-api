@@ -42,12 +42,10 @@ defmodule ShareBooksApiWeb.Endpoint do
     key: "_share_books_api_key",
     signing_salt: "9qL2vIMb"
 
-  plug ShareBooksApiWeb.Router
-
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
     json_decoder: Poison
-    
+  
   plug Absinthe.Plug,
     schema: ShareBooksApiWeb.Schema
 end

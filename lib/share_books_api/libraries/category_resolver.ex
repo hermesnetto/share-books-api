@@ -11,4 +11,8 @@ defmodule ShareBooksApi.Libraries.CategoryResolver do
       category -> {:ok, category}
     end
   end
+
+  def create(_parent, args, _info) do
+    Libraries.create_category(args)
+  end
 end

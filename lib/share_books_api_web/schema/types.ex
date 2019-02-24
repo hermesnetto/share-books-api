@@ -37,4 +37,9 @@ defmodule ShareBooksApiWeb.Schema.Types do
     end
     field :category, :category
   end
+
+  @doc ""
+  object :session do
+    field(:token, :string)
+  end
 end
