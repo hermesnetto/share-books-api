@@ -70,5 +70,5 @@ defmodule ShareBooksApi.Accounts do
     user
     |> User.store_token_changeset(%{token: token})
     |> Repo.update()
-end
+  end
 end

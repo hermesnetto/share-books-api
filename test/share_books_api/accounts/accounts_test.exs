@@ -6,8 +6,16 @@ defmodule ShareBooksApi.AccountsTest do
   describe "users" do
     alias ShareBooksApi.Accounts.User
 
-    @valid_attrs %{email: "some email", encrypted_password: "some encrypted_password", name: "some name"}
-    @update_attrs %{email: "some updated email", encrypted_password: "some updated encrypted_password", name: "some updated name"}
+    @valid_attrs %{
+      email: "some email",
+      encrypted_password: "some encrypted_password",
+      name: "some name"
+    }
+    @update_attrs %{
+      email: "some updated email",
+      encrypted_password: "some updated encrypted_password",
+      name: "some updated name"
+    }
     @invalid_attrs %{email: nil, encrypted_password: nil, name: nil}
 
     def user_fixture(attrs \\ %{}) do

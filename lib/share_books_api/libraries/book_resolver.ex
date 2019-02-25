@@ -20,8 +20,12 @@ defmodule ShareBooksApi.Libraries.BookResolver do
     end
   end
 
-  def create(_parent, args, _foo) do
-    IO.inspect args
-    # Libraries.create_book(args)
+  def create(_parent, args, %{context: %{current_user: current_user}}) do
+    args = Map.put(args, :owner_id, current_user.id)
+    Libraries.create_book(args)
+  end
+
+  def create(_parent, args, %{context: _context}) do
+    {:error, "You need to log in to create books!"}
   end
 end

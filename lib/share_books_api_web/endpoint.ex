@@ -34,6 +34,9 @@ defmodule ShareBooksApiWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
 
+  plug ShareBooksApiWeb.Context
+  plug ShareBooksApiWeb.Router
+
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
@@ -45,9 +48,4 @@ defmodule ShareBooksApiWeb.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
     json_decoder: Poison
-
-  plug ShareBooksApiWeb.Context
-  
-  plug Absinthe.Plug,
-    schema: ShareBooksApiWeb.Schema
 end

@@ -1,5 +1,4 @@
 defmodule ShareBooksApi.AuthHelper do
-
   import Comeonin.Bcrypt, only: [checkpw: 2]
   alias ShareBooksApi.Repo
   alias ShareBooksApi.Accounts.User

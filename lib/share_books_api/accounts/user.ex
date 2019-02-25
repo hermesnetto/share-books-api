@@ -9,7 +9,7 @@ defmodule ShareBooksApi.Accounts.User do
     field :encrypted_password, :string
     field :name, :string
     field :token, :string
-    has_many :books, ShareBooksApi.Libraries.Book, foreign_key: :user_id
+    has_many :books, ShareBooksApi.Libraries.Book, foreign_key: :owner_id
 
     timestamps()
   end
@@ -33,6 +33,7 @@ defmodule ShareBooksApi.Accounts.User do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
         put_change(changeset, :encrypted_password, Comeonin.Bcrypt.hashpwsalt(pass))
+
       _ ->
         changeset
     end

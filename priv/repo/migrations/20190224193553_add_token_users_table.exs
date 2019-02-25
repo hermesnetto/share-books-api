@@ -4,6 +4,6 @@ defmodule ShareBooksApi.Repo.Migrations.AddTokenUsersTable do
   def change do
     alter table(:users) do
       add :token, :text
-     end
+    end
   end
 end

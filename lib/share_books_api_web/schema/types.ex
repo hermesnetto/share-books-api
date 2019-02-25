@@ -8,8 +8,9 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :id, :id
     field :name, :string
     field :email, :string
+
     field :books, list_of(:book) do
-      resolve &BookResolver.all_by_user/3
+      resolve(&BookResolver.all_by_user/3)
     end
   end
 
@@ -17,8 +18,9 @@ defmodule ShareBooksApiWeb.Schema.Types do
   object :category do
     field :id, :id
     field :title, :string
+
     field :books, list_of(:book) do
-      resolve &BookResolver.all_by_category/3
+      resolve(&BookResolver.all_by_category/3)
     end
   end
 
@@ -32,9 +34,11 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :publication_date, :string
     field :publisher, :string
     field :title, :string
+
     field :user, :user do
-      resolve &UserResolver.find/3
+      resolve(&UserResolver.find_by_book/3)
     end
+
     field :category, :category
   end
 

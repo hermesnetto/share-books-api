@@ -10,7 +10,7 @@ defmodule ShareBooksApi.Libraries.Book do
     field :publication_date, :string
     field :publisher, :string
     field :title, :string
-    belongs_to :user, ShareBooksApi.Accounts.User
+    belongs_to :user, ShareBooksApi.Accounts.User, foreign_key: :owner_id
     belongs_to :category, ShareBooksApi.Libraries.Category
 
     timestamps()
@@ -19,7 +19,16 @@ defmodule ShareBooksApi.Libraries.Book do
   @doc false
   def changeset(book, attrs) do
     book
-    |> cast(attrs, [:title, :description, :author, :publisher, :publication_date, :image, :is_rented])
-    |> validate_required([:title, :is_rented])
+    |> cast(attrs, [
+      :title,
+      :description,
+      :author,
+      :publisher,
+      :publication_date,
+      :image,
+      :is_rented,
+      :owner_id
+    ])
+    |> validate_required([:title, :is_rented, :owner_id])
   end
 end

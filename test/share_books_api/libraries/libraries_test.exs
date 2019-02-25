@@ -65,9 +65,33 @@ defmodule ShareBooksApi.LibrariesTest do
   describe "books" do
     alias ShareBooksApi.Libraries.Book
 
-    @valid_attrs %{author: "some author", description: "some description", image: "some image", is_rent: true, publication_year: ~D[2010-04-17], publisher: "some publisher", title: "some title"}
-    @update_attrs %{author: "some updated author", description: "some updated description", image: "some updated image", is_rent: false, publication_year: ~D[2011-05-18], publisher: "some updated publisher", title: "some updated title"}
-    @invalid_attrs %{author: nil, description: nil, image: nil, is_rent: nil, publication_year: nil, publisher: nil, title: nil}
+    @valid_attrs %{
+      author: "some author",
+      description: "some description",
+      image: "some image",
+      is_rent: true,
+      publication_year: ~D[2010-04-17],
+      publisher: "some publisher",
+      title: "some title"
+    }
+    @update_attrs %{
+      author: "some updated author",
+      description: "some updated description",
+      image: "some updated image",
+      is_rent: false,
+      publication_year: ~D[2011-05-18],
+      publisher: "some updated publisher",
+      title: "some updated title"
+    }
+    @invalid_attrs %{
+      author: nil,
+      description: nil,
+      image: nil,
+      is_rent: nil,
+      publication_year: nil,
+      publisher: nil,
+      title: nil
+    }
 
     def book_fixture(attrs \\ %{}) do
       {:ok, book} =
