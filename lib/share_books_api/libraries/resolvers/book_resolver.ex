@@ -23,7 +23,7 @@ defmodule ShareBooksApi.Libraries.BookResolver do
     Libraries.create_book(args)
   end
 
-  def create(_parent, args, %{context: _context}) do 
+  def create(_parent, args, %{context: _context}) do
     {:error, "You need be logged in to create books!"}
   end
 end

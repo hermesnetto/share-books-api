@@ -11,7 +11,7 @@ defmodule ShareBooksApi.Libraries.Book do
     field :publication_date, :string
     field :publisher, :string
     field :title, :string
-    
+
     has_many :rents, Libraries.Rent, foreign_key: :rent_id
     belongs_to :user, Accounts.User, foreign_key: :owner_id
     belongs_to :category, Libraries.Category, foreign_key: :category_id

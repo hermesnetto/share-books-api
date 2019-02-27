@@ -23,6 +23,7 @@ defmodule ShareBooksApi.Accounts.UserResolver do
   """
   @TODO: Fix this shit
   """
+
   def logout(_args, %{context: %{current_user: current_user}}) do
     Accounts.revoke_token(current_user, nil)
     {:ok, current_user}

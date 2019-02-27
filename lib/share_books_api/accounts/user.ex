@@ -9,7 +9,7 @@ defmodule ShareBooksApi.Accounts.User do
     field :encrypted_password, :string
     field :name, :string
     field :token, :string
-    
+
     has_many :books, Libraries.Book, foreign_key: :owner_id
     has_many :rents, Libraries.Rent, foreign_key: :user_id
 
