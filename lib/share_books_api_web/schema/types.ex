@@ -42,8 +42,16 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :category, :category
   end
 
+  @doc "A rent of a book"
+  object :rent do
+    field :id, :id
+    field :user_id, :id
+    field :book_id, :id
+    field :due_date, :string
+  end
+
   @doc ""
   object :session do
-    field(:token, :string)
+    field :token, :string
   end
 end

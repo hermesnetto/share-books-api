@@ -1,7 +1,7 @@
 defmodule ShareBooksApi.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias ShareBooksApi.Accounts.User
+  alias ShareBooksApi.{Accounts, Libraries}
 
   schema "users" do
     field :email, :string
@@ -9,13 +9,15 @@ defmodule ShareBooksApi.Accounts.User do
     field :encrypted_password, :string
     field :name, :string
     field :token, :string
-    has_many :books, ShareBooksApi.Libraries.Book, foreign_key: :owner_id
+    
+    has_many :books, Libraries.Book, foreign_key: :owner_id
+    has_many :rents, Libraries.Rent, foreign_key: :user_id
 
     timestamps()
   end
 
   @doc false
-  def changeset(%User{} = user, attrs) do
+  def changeset(%Accounts.User{} = user, attrs) do
     user
     |> cast(attrs, [:name, :email, :password])
     |> validate_required([:name, :email, :password])
@@ -24,7 +26,7 @@ defmodule ShareBooksApi.Accounts.User do
     |> put_password_hash()
   end
 
-  def store_token_changeset(%User{} = user, attrs) do
+  def store_token_changeset(%Accounts.User{} = user, attrs) do
     user
     |> cast(attrs, [:token])
   end

@@ -1,11 +1,13 @@
 defmodule ShareBooksApi.Libraries.Rent do
   use Ecto.Schema
   import Ecto.Changeset
+  alias ShareBooksApi.{Accounts, Libraries}
 
   schema "rents" do
-    field :expiration_date, :date
-    belongs_to :user, ShareBooksApi.Accounts.User
-    belongs_to :book, ShareBooksApi.Libraries.Book
+    field :due_date, :utc_datetime
+
+    belongs_to :user, Accounts.User, foreign_key: :user_id
+    belongs_to :book, Libraries.Book, foreign_key: :book_id
 
     timestamps()
   end
@@ -13,7 +15,9 @@ defmodule ShareBooksApi.Libraries.Rent do
   @doc false
   def changeset(rent, attrs) do
     rent
-    |> cast(attrs, [:expiration_date])
-    |> validate_required([:expiration_date])
+    |> cast(attrs, [:due_date, :user_id, :book_id])
+    |> validate_required([:due_date, :user_id, :book_id])
+    |> foreign_key_constraint(:user_id)
+    |> foreign_key_constraint(:book_id)
   end
 end
