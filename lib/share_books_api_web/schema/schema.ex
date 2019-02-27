@@ -61,17 +61,17 @@ defmodule ShareBooksApiWeb.Schema do
   end
 
   mutation do
-    field :login, type: :session do
+    field :authorize, type: :session do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
 
-      resolve(&UserResolver.login/2)
+      resolve(&UserResolver.authorize/2)
     end
 
-    field :logout, type: :user do
+    field :signout, type: :user do
       arg(:id, non_null(:id))
 
-      resolve(&UserResolver.logout/2)
+      resolve(&UserResolver.signout/2)
     end
 
     @desc "Create a user"

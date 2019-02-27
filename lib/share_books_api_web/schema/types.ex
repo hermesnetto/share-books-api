@@ -50,7 +50,7 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :due_date, :string
   end
 
-  @doc ""
+  @doc "The current session"
   object :session do
     field :token, :string
   end

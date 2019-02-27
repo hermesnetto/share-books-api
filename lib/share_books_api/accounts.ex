@@ -66,9 +66,9 @@ defmodule ShareBooksApi.Accounts do
   @doc """
   Revoke a user token
   """
-  def revoke_token(%User{} = user, token) do
+  def revoke_token(%User{} = user) do
     user
-    |> User.store_token_changeset(%{token: token})
+    |> User.store_token_changeset(%{token: nil})
     |> Repo.update()
   end
 end
