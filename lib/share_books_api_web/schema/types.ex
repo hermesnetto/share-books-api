@@ -48,6 +48,7 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :user_id, :id
     field :book_id, :id
     field :due_date, :string
+    field :book_returned, :boolean
   end
 
   @doc "The current session"

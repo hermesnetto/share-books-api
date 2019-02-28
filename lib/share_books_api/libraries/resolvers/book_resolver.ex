@@ -12,7 +12,7 @@ defmodule ShareBooksApi.Libraries.BookResolver do
   end
 
   def find_by_book_id(%{id: id}, _info) do
-    case Libraries.get_book!(id) do
+    case Libraries.get_book(id) do
       nil -> {:error, "Book not found!"}
       book -> {:ok, book}
     end

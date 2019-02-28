@@ -5,6 +5,7 @@ defmodule ShareBooksApi.Libraries.Rent do
 
   schema "rents" do
     field :due_date, :utc_datetime
+    field :book_returned, :boolean, default: false
 
     belongs_to :user, Accounts.User, foreign_key: :user_id
     belongs_to :book, Libraries.Book, foreign_key: :book_id
@@ -15,7 +16,7 @@ defmodule ShareBooksApi.Libraries.Rent do
   @doc false
   def changeset(rent, attrs) do
     rent
-    |> cast(attrs, [:due_date, :user_id, :book_id])
+    |> cast(attrs, [:due_date, :book_returned, :user_id, :book_id])
     |> validate_required([:due_date, :user_id, :book_id])
     |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:book_id)

@@ -18,10 +18,8 @@ defmodule ShareBooksApi.Libraries do
 
   @doc """
   Gets a single category.
-
-  Raises `Ecto.NoResultsError` if the Category does not exist.
   """
-  def get_category!(id), do: Repo.get!(Category, id)
+  def get_category(id), do: Repo.get(Category, id)
 
   @doc """
   Creates a category.
@@ -80,10 +78,8 @@ defmodule ShareBooksApi.Libraries do
 
   @doc """
   Gets a single book.
-
-  Raises `Ecto.NoResultsError` if the Book does not exist.
   """
-  def get_book!(id), do: Repo.get!(Book, id)
+  def get_book(id), do: Repo.get(Book, id)
 
   @doc """
   Creates a book.
@@ -128,10 +124,8 @@ defmodule ShareBooksApi.Libraries do
 
   @doc """
   Gets a single rent.
-
-  Raises `Ecto.NoResultsError` if the Rent does not exist.
   """
-  def get_rent!(id), do: Repo.get!(Rent, id)
+  def get_rent(id), do: Repo.get(Rent, id)
 
   @doc """
   Creates a rent.

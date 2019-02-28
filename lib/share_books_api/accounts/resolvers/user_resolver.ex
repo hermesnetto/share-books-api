@@ -1,12 +1,11 @@
 defmodule ShareBooksApi.Accounts.UserResolver do
-  alias ShareBooksApi.{Accounts, Libraries, AuthHelper, Guardian}
-  alias ShareBooksApi.Accounts.User
+  alias ShareBooksApi.{Accounts, AuthHelper, Guardian}
 
   def all(_args, _info), do: {:ok, Accounts.list_users()}
 
-  def find_by_book(%Libraries.Book{} = %{owner_id: user_id}, _args, _info), do: get_user(user_id)
+  def find_by_book(%{owner_id: user_id}, _args, _info), do: get_user(user_id)
 
-  def find_by_user_id(%User{} = %{id: id}, _info), do: get_user(id)
+  def find_by_user_id(%{id: id}, _info), do: get_user(id)
 
   def find_me(_args, %{context: %{current_user: current_user}}), do: get_user(current_user.id)
 
@@ -28,7 +27,7 @@ defmodule ShareBooksApi.Accounts.UserResolver do
   def signout(_args, _info), do: {:error, "Please log in first!"}
 
   defp get_user(user_id) do
-    case Accounts.get_user!(user_id) do
+    case Accounts.get_user(user_id) do
       nil -> {:error, "User not found!"}
       user -> {:ok, user}
     end

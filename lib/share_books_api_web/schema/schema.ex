@@ -104,12 +104,19 @@ defmodule ShareBooksApiWeb.Schema do
       resolve(&BookResolver.create/3)
     end
 
-    @desc "Create a rent"
-    field :rentBook, type: :rent do
+    @desc "Rent a Book"
+    field :rent_book, type: :rent do
       arg(:book_id, non_null(:id))
       arg(:due_date, non_null(:string))
 
-      resolve(&RentResolver.create/3)
+      resolve(&RentResolver.rent_book/3)
+    end
+
+    @desc "Give back a Book"
+    field :return_book, type: :book do
+      arg(:id, non_null(:id))
+
+      resolve(&RentResolver.return_book/3)
     end
   end
 end
