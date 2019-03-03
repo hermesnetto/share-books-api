@@ -1,7 +1,7 @@
 defmodule ShareBooksApiWeb.Schema.Types do
   use Absinthe.Schema.Notation
   alias ShareBooksApi.Accounts.UserResolver
-  alias ShareBooksApi.Libraries.BookResolver
+  alias ShareBooksApi.Libraries.{BookResolver, RentResolver}
 
   @desc "A user of the Library"
   object :user do
@@ -37,6 +37,10 @@ defmodule ShareBooksApiWeb.Schema.Types do
 
     field :user, :user do
       resolve(&UserResolver.find_by_book/3)
+    end
+
+    field :rent, :rent do
+      resolve(&RentResolver.find_by_book/3)
     end
 
     field :category, :category

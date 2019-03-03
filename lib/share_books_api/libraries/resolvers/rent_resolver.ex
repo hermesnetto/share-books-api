@@ -1,9 +1,7 @@
 defmodule ShareBooksApi.Libraries.RentResolver do
   alias ShareBooksApi.Libraries
 
-  @doc """
-  15 days = 1296000 seconds
-  """
+  # 15 days = 1296000 seconds
   @seconds_to_return_book 600
 
   @doc """
@@ -22,16 +20,36 @@ defmodule ShareBooksApi.Libraries.RentResolver do
       rent -> {:ok, add_status_to_rent(rent)}
     end
   end
+
+  @doc """
+  Gets a Rent by the Book and User ID's
+  """
+  def find_by_book(%{id: book_id}, _args, %{context: %{current_user: user}}) do
+    case Libraries.get_rent(book_id, user.id) do
+      nil -> {:error, nil}
+      rent -> {:ok, add_status_to_rent(rent)}
+    end
+  end
+  
+  @doc """
+  Rent a Book if it's available or throw an error if it's alredy rented
+  """
+  def rent_book_if_available(_parent, args, %{context: %{current_user: user}}) do
+    case Libraries.get_rented_book(args.book_id) do
+      nil -> rent_book(args, user)
+      rent -> {:error, "This Book is already rented!"}
+    end
+  end
   
   @doc """
   Creates a new Rent
   """
-  def rent_book(_parent, args, %{context: %{current_user: user}}) do
+  def rent_book(args, %{id: user_id}) do
     due_date = DateTime.utc_now() |> DateTime.add(@seconds_to_return_book, :second)
 
     attrs =
       Map.merge(args, %{
-        user_id: user.id,
+        user_id: user_id,
         due_date: due_date
       })
       
@@ -53,24 +71,16 @@ defmodule ShareBooksApi.Libraries.RentResolver do
     end
   end
   
-  @doc """
-  Adds an attribute :status in every Rents
-  """
+  # Adds an attribute :status in every Rents
   defp add_status_to_every_rent(rents), do: for rent <- rents, do: add_status_to_rent rent
 
-  @doc """
-  Adds an attribute :status to a specific Rent
-  """
+  # Adds an attribute :status to a specific Rent
   defp add_status_to_rent(rent), do: Map.put(rent, :status, get_status rent)
 
-  @doc """
-  Returns the :status of a Rent
-  """
+  # Returns the :status of a Rent
   defp get_status(%{book_returned: true}), do: "RETURNED"
   
-  @doc """
-  Returns the :status of a Rent
-  """
+  # Returns the :status of a Rent
   defp get_status(%{book_returned: false, due_date: due_date}) do
     case DateTime.compare(due_date, DateTime.utc_now()) do
       :gt -> "RENTED"

@@ -108,7 +108,7 @@ defmodule ShareBooksApiWeb.Schema do
     field :rent_book, type: :rent do
       arg(:book_id, non_null(:id))
 
-      resolve(&RentResolver.rent_book/3)
+      resolve(&RentResolver.rent_book_if_available/3)
     end
 
     @desc "Give back a Book"
