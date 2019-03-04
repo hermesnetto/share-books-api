@@ -128,13 +128,6 @@ defmodule ShareBooksApi.Libraries do
   def get_rent(id), do: Repo.get(Rent, id)
 
   @doc """
-  Gets a single rent by User and Book ID's
-  """
-  def get_rent(book_id, user_id) do
-    Repo.get_by(Rent, book_id: book_id, user_id: user_id, book_returned: false)
-  end
-
-  @doc """
   """
   def get_rented_book(book_id) do
     Repo.get_by(Rent, book_id: book_id, book_returned: false)

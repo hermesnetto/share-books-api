@@ -24,8 +24,8 @@ defmodule ShareBooksApi.Libraries.RentResolver do
   @doc """
   Gets a Rent by the Book and User ID's
   """
-  def find_by_book(%{id: book_id}, _args, %{context: %{current_user: user}}) do
-    case Libraries.get_rent(book_id, user.id) do
+  def find_by_book(%{id: book_id}, _args, _context) do
+    case Libraries.get_rented_book(book_id) do
       nil -> {:error, nil}
       rent -> {:ok, add_status_to_rent(rent)}
     end
