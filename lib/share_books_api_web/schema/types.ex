@@ -43,6 +43,10 @@ defmodule ShareBooksApiWeb.Schema.Types do
       resolve(&RentResolver.find_by_book/3)
     end
 
+    field :rents, list_of(:rent) do
+      resolve(&RentResolver.find_all_by_book_id/3)
+    end
+
     field :category, :category
   end
 
