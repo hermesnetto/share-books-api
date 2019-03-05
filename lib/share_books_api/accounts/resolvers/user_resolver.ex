@@ -5,6 +5,8 @@ defmodule ShareBooksApi.Accounts.UserResolver do
 
   def find_by_book(%{owner_id: user_id}, _args, _info), do: get_user(user_id)
 
+  def find_by_rent(%{user_id: user_id}, _args, _info), do: get_user(user_id)
+
   def find_by_user_id(%{id: id}, _info), do: get_user(id)
 
   def find_me(_args, %{context: %{current_user: current_user}}), do: get_user(current_user.id)
