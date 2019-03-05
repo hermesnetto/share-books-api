@@ -47,9 +47,11 @@ defmodule ShareBooksApiWeb.Schema do
       resolve(&CategoryResolver.find_by_book_id/2)
     end
 
-    @desc "Get all rents"
+    @desc "Get all rents of a specific book"
     field :rents, type: list_of(:rent) do
-      resolve(&RentResolver.all/2)
+      arg(:book_id, non_null(:id))
+      
+      resolve(&RentResolver.find_all_by_book_id/2)
     end
 
     @desc "Get a single rent by its id"

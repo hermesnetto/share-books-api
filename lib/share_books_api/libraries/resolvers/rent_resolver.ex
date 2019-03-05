@@ -7,8 +7,8 @@ defmodule ShareBooksApi.Libraries.RentResolver do
   @doc """
   Gets all rents
   """
-  def all(_args, _info) do
-    {:ok, Libraries.list_rents |> add_status_to_every_rent}
+  def find_all_by_book_id(%{book_id: book_id}, _info) do
+    {:ok, Libraries.list_rents_by_book(book_id) |> add_status_to_every_rent}
   end
 
   @doc """

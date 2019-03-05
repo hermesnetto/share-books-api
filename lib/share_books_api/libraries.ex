@@ -66,14 +66,14 @@ defmodule ShareBooksApi.Libraries do
   Returns the list of books from a given user.
   """
   def list_books_by_user(user) do
-    Repo.all(from p in Book, where: p.user_id == ^user.id)
+    Repo.all(from book in Book, where: book.user_id == ^user.id)
   end
 
   @doc """
   Returns the list of books from a given category.
   """
   def list_books_by_category(category) do
-    Repo.all(from p in Book, where: p.category_id == ^category.id)
+    Repo.all(from book in Book, where: book.category_id == ^category.id)
   end
 
   @doc """
@@ -120,6 +120,10 @@ defmodule ShareBooksApi.Libraries do
   """
   def list_rents do
     Repo.all(Rent)
+  end
+
+  def list_rents_by_book(book_id) do
+    Repo.all(from rent in Rent, where: rent.book_id == ^book_id)
   end
 
   @doc """
