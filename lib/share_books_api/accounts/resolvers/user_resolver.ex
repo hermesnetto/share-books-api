@@ -9,6 +9,8 @@ defmodule ShareBooksApi.Accounts.UserResolver do
 
   def find_me(_args, %{context: %{current_user: current_user}}), do: get_user(current_user.id)
 
+  def find_me(_args, %{context: _context}), do: {:ok, nil}
+
   def create(_parent, args, _info), do: Accounts.create_user(args)
 
   def authorize(%{email: email, password: password}, _info) do

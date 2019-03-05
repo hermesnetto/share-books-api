@@ -14,7 +14,7 @@ defmodule ShareBooksApi.AuthHelper do
         {:error, "Incorrect login credentials"}
 
       true ->
-        {:error, :"User not found"}
+        {:error, "User not found"}
     end
   end
 end

@@ -78,14 +78,14 @@ defmodule ShareBooksApi.Libraries.RentResolver do
   defp add_status_to_rent(rent), do: Map.put(rent, :status, get_status rent)
 
   # Returns the :status of a Rent
-  defp get_status(%{book_returned: true}), do: "RETURNED"
+  defp get_status(%{book_returned: true}), do: "Returned"
   
   # Returns the :status of a Rent
   defp get_status(%{book_returned: false, due_date: due_date}) do
     case DateTime.compare(due_date, DateTime.utc_now()) do
-      :gt -> "RENTED"
-      :lt -> "EXPIRED"
-      :eq -> "EXPIRED"
+      :gt -> "Rented"
+      :lt -> "Expired"
+      :eq -> "Expired"
     end
   end
 end
