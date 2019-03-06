@@ -1,23 +1,14 @@
-defmodule ShareBooksApi.Libraries.RentResolver do
+defmodule ShareBooksApiWeb.Libraries.RentResolver do
   alias ShareBooksApi.Libraries
 
   @seconds_in_a_day 86400
   @days_allowed_with_book 15
   @seconds_to_return_book @seconds_in_a_day * @days_allowed_with_book
 
-  @doc """
-  Gets all rents by Book ID
-  """
   def find_all_by_book_id(%{book_id: book_id}, _info), do: find_all_by_book(book_id)
 
-  @doc """
-  Gets all rents by Book ID
-  """
   def find_all_by_book_id(%{id: book_id}, _args, _info), do: find_all_by_book(book_id)
 
-  @doc """
-  Gets a Rent by its ID
-  """
   def find_by_rent_id(%{id: id}, _info) do
     case Libraries.get_rent(id) do
       nil -> {:error, "Rent not found!"}
@@ -25,9 +16,6 @@ defmodule ShareBooksApi.Libraries.RentResolver do
     end
   end
 
-  @doc """
-  Gets a Rent by the Book and User ID's
-  """
   def find_by_book(%{id: book_id}, _args, _context) do
     case Libraries.get_rented_book(book_id) do
       nil -> {:error, nil}
@@ -35,9 +23,6 @@ defmodule ShareBooksApi.Libraries.RentResolver do
     end
   end
 
-  @doc """
-  Rent a Book if it's available or throw an error if it's alredy rented
-  """
   def rent_book_if_available(_parent, args, %{context: %{current_user: user}}) do
     case Libraries.get_rented_book(args.book_id) do
       nil -> rent_book(args, user)
@@ -45,9 +30,6 @@ defmodule ShareBooksApi.Libraries.RentResolver do
     end
   end
 
-  @doc """
-  Creates a new Rent
-  """
   def rent_book(args, %{id: user_id}) do
     due_date = DateTime.utc_now() |> DateTime.add(@seconds_to_return_book, :second)
 
@@ -60,15 +42,9 @@ defmodule ShareBooksApi.Libraries.RentResolver do
     Libraries.create_rent(attrs)
   end
 
-  @doc """
-  Not authorized to create Rents
-  """
   def rent_book(_parent, _args, %{context: _ctx}),
     do: {:error, "You need be logged in to rent a book!"}
 
-  @doc """
-  Marks a Rent as returned
-  """
   def return_book(%{rent_id: id}, %{context: %{current_user: _user}}) do
     case Libraries.get_rent(id) do
       nil -> {:error, "Rent not found!"}

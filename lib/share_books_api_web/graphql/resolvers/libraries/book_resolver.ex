@@ -1,4 +1,4 @@
-defmodule ShareBooksApi.Libraries.BookResolver do
+defmodule ShareBooksApiWeb.Libraries.BookResolver do
   alias ShareBooksApi.{Libraries, Accounts}
 
   def all(_args, _info), do: {:ok, Libraries.list_books()}

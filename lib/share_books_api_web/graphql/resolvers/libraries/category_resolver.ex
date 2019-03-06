@@ -1,4 +1,4 @@
-defmodule ShareBooksApi.Libraries.CategoryResolver do
+defmodule ShareBooksApiWeb.Libraries.CategoryResolver do
   alias ShareBooksApi.Libraries
 
   def all(_args, _info), do: {:ok, Libraries.list_categories()}

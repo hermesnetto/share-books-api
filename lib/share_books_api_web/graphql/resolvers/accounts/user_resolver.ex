@@ -1,4 +1,4 @@
-defmodule ShareBooksApi.Accounts.UserResolver do
+defmodule ShareBooksApiWeb.Accounts.UserResolver do
   alias ShareBooksApi.{Accounts, AuthHelper, Guardian}
 
   def all(_args, _info), do: {:ok, Accounts.list_users()}

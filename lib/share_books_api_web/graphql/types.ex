@@ -1,7 +1,6 @@
 defmodule ShareBooksApiWeb.Schema.Types do
   use Absinthe.Schema.Notation
-  alias ShareBooksApi.Accounts.UserResolver
-  alias ShareBooksApi.Libraries.{BookResolver, RentResolver, CategoryResolver}
+  alias ShareBooksApiWeb.{Accounts, Libraries}
 
   @desc "A user of the Library"
   object :user do
@@ -10,7 +9,7 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :email, :string
 
     field :books, list_of(:book) do
-      resolve(&BookResolver.all_by_user/3)
+      resolve(&Libraries.BookResolver.all_by_user/3)
     end
   end
 
@@ -20,7 +19,7 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :title, :string
 
     field :books, list_of(:book) do
-      resolve(&BookResolver.all_by_category/3)
+      resolve(&Libraries.BookResolver.all_by_category/3)
     end
   end
 
@@ -36,23 +35,23 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :title, :string
 
     field :user, :user do
-      resolve(&UserResolver.find_by_book/3)
+      resolve(&Accounts.UserResolver.find_by_book/3)
     end
 
     field :rent, :rent do
-      resolve(&RentResolver.find_by_book/3)
+      resolve(&Libraries.RentResolver.find_by_book/3)
     end
 
     field :rents, list_of(:rent) do
-      resolve(&RentResolver.find_all_by_book_id/3)
+      resolve(&Libraries.RentResolver.find_all_by_book_id/3)
     end
 
     field :category, :category do
-      resolve(&CategoryResolver.find_by_book/3)
+      resolve(&Libraries.CategoryResolver.find_by_book/3)
     end
   end
 
-  @doc "A rent of a book"
+  @desc "A rent of a book"
   object :rent do
     field :id, :id
     field :user_id, :id
@@ -63,11 +62,11 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :days_left, :string
 
     field :user, :user do
-      resolve(&UserResolver.find_by_rent/3)
+      resolve(&Accounts.UserResolver.find_by_rent/3)
     end
   end
 
-  @doc "The current session"
+  @desc "The current session"
   object :session do
     field :token, :string
   end
