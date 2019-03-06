@@ -2,7 +2,7 @@
 
 ## About
 
-This is as WIP project made to study GraphQL with Elixir. This is the API only and the front-end app is being done on https://github.com/hermesnetto/share-books-api.
+This is as WIP project made to study GraphQL with Elixir. This is the API only and the front-end app is being done on https://github.com/hermesnetto/share-books-app.
 
 ## To run the project
 
