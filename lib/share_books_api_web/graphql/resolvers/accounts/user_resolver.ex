@@ -13,7 +13,7 @@ defmodule ShareBooksApiWeb.Accounts.UserResolver do
 
   def find_me(_args, %{context: _context}), do: {:ok, nil}
 
-  def create(_parent, args, _info), do: Accounts.create_user(args)
+  def create(_parent, %{input: args}, _info), do: Accounts.create_user(args)
 
   def authorize(%{email: email, password: password}, _info) do
     with {:ok, user} <- AuthHelper.login_with_email_pass(email, password),

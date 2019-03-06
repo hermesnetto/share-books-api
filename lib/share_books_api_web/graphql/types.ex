@@ -70,4 +70,37 @@ defmodule ShareBooksApiWeb.Schema.Types do
   object :session do
     field :token, :string
   end
+
+  input_object :create_user_input do
+    field :name, non_null(:string)
+    field :email, non_null(:string)
+    field :password, non_null(:string)
+  end
+
+  input_object :create_category_input do
+    field :title, non_null(:string)
+  end
+
+  input_object :create_book_input do
+    field :title, non_null(:string)
+    field :author, :string
+    field :description, :string
+    field :image, :string
+    field :is_rented, :boolean
+    field :publication_date, :string
+    field :publisher, :string
+    field :category_id, :id
+  end
+
+  input_object :update_book_input do
+    field :id, non_null(:id)
+    field :title, :string
+    field :author, :string
+    field :description, :string
+    field :image, :string
+    field :is_rented, :boolean
+    field :publication_date, :string
+    field :publisher, :string
+    field :category_id, :id
+  end
 end

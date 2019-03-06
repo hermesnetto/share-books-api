@@ -78,45 +78,28 @@ defmodule ShareBooksApiWeb.Schema do
 
     @desc "Create a user"
     field :create_user, type: :user do
-      arg(:name, non_null(:string))
-      arg(:email, non_null(:string))
-      arg(:password, non_null(:string))
+      arg(:input, non_null(:create_user_input))
 
       resolve(&Accounts.UserResolver.create/3)
     end
 
     @desc "Create a category"
     field :create_category, type: :category do
-      arg(:title, non_null(:string))
+      arg(:input, non_null(:create_category_input))
 
       resolve(&Libraries.CategoryResolver.create/3)
     end
 
     @desc "Create a book"
     field :create_book, type: :book do
-      arg(:title, non_null(:string))
-      arg(:author, :string)
-      arg(:description, :string)
-      arg(:image, :string)
-      arg(:is_rented, :boolean)
-      arg(:publication_date, :string)
-      arg(:publisher, :string)
-      arg(:category_id, :id)
+      arg(:input, non_null(:create_book_input))
 
       resolve(&Libraries.BookResolver.create/3)
     end
 
     @desc "Update a book"
     field :update_book, type: :book do
-      arg(:id, non_null(:id))
-      arg(:title, :string)
-      arg(:author, :string)
-      arg(:description, :string)
-      arg(:image, :string)
-      arg(:is_rented, :boolean)
-      arg(:publication_date, :string)
-      arg(:publisher, :string)
-      arg(:category_id, :id)
+      arg(:input, non_null(:update_book_input))
 
       resolve(&Libraries.BookResolver.update/3)
     end

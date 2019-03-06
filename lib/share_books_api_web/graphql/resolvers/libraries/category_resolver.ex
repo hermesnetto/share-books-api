@@ -9,7 +9,7 @@ defmodule ShareBooksApiWeb.Libraries.CategoryResolver do
 
   def find_by_book_id(%{id: id}, _info), do: find_category(id, "Category not found!")
 
-  def create(_parent, args, %{context: %{current_user: _current_user}}),
+  def create(_parent, %{input: args}, %{context: %{current_user: _current_user}}),
     do: Libraries.create_category(args)
 
   def create(_parent, args, %{context: _context}),
