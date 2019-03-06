@@ -94,16 +94,38 @@ defmodule ShareBooksApiWeb.Schema do
 
     @desc "Create a book"
     field :create_book, type: :book do
+      arg(:title, non_null(:string))
       arg(:author, :string)
       arg(:description, :string)
       arg(:image, :string)
       arg(:is_rented, :boolean)
       arg(:publication_date, :string)
       arg(:publisher, :string)
-      arg(:title, non_null(:string))
       arg(:category_id, :id)
 
       resolve(&BookResolver.create/3)
+    end
+
+    @desc "Update a book"
+    field :update_book, type: :book do
+      arg(:id, non_null(:id))
+      arg(:title, :string)
+      arg(:author, :string)
+      arg(:description, :string)
+      arg(:image, :string)
+      arg(:is_rented, :boolean)
+      arg(:publication_date, :string)
+      arg(:publisher, :string)
+      arg(:category_id, :id)
+
+      resolve(&BookResolver.update/3)
+    end
+
+    @desc "Delete a book"
+    field :delete_book, type: :book do
+      arg(:id, non_null(:id))
+
+      resolve(&BookResolver.delete/3)
     end
 
     @desc "Rent a Book"
@@ -114,10 +136,10 @@ defmodule ShareBooksApiWeb.Schema do
     end
 
     @desc "Give back a Book"
-    field :return_book, type: :book do
+    field :return_book, type: :rent do
       arg(:rent_id, non_null(:id))
 
-      resolve(&RentResolver.return_book/3)
+      resolve(&RentResolver.return_book/2)
     end
   end
 end

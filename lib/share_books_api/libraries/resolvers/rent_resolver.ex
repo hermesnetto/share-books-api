@@ -1,8 +1,9 @@
 defmodule ShareBooksApi.Libraries.RentResolver do
   alias ShareBooksApi.Libraries
 
-  # 15 days = 1296000 seconds
-  @seconds_to_return_book 600
+  @seconds_in_a_day 86400
+  @days_allowed_with_book 15
+  @seconds_to_return_book @seconds_in_a_day * @days_allowed_with_book
 
   @doc """
   Gets all rents by Book ID
@@ -20,7 +21,7 @@ defmodule ShareBooksApi.Libraries.RentResolver do
   def find_by_rent_id(%{id: id}, _info) do
     case Libraries.get_rent(id) do
       nil -> {:error, "Rent not found!"}
-      rent -> {:ok, add_status_to_rent(rent)}
+      rent -> {:ok, rent |> add_status_to_rent |> add_days_left_to_rent}
     end
   end
 
@@ -30,7 +31,7 @@ defmodule ShareBooksApi.Libraries.RentResolver do
   def find_by_book(%{id: book_id}, _args, _context) do
     case Libraries.get_rented_book(book_id) do
       nil -> {:error, nil}
-      rent -> {:ok, add_status_to_rent(rent)}
+      rent -> {:ok, rent |> add_status_to_rent |> add_days_left_to_rent}
     end
   end
   
@@ -67,7 +68,7 @@ defmodule ShareBooksApi.Libraries.RentResolver do
   @doc """
   Marks a Rent as returned
   """
-  def return_book(_parent, %{id: id}, %{context: %{current_user: _user}}) do
+  def return_book(%{rent_id: id}, %{context: %{current_user: _user}}) do
     case Libraries.get_rent(id) do
       nil -> {:error, "Rent not found!"}
       rent -> Libraries.update_rent(rent, %{book_returned: true})
@@ -76,7 +77,7 @@ defmodule ShareBooksApi.Libraries.RentResolver do
 
   # Returns all Rents of a specific Book
   defp find_all_by_book(book_id) do
-    {:ok, Libraries.list_rents_by_book(book_id) |> add_status_to_every_rent}
+    {:ok, Libraries.list_rents_by_book(book_id) |> add_status_to_every_rent |> add_days_left_to_every_rent}
   end
   
   # Adds an attribute :status in every Rents
@@ -85,9 +86,15 @@ defmodule ShareBooksApi.Libraries.RentResolver do
   # Adds an attribute :status to a specific Rent
   defp add_status_to_rent(rent), do: Map.put(rent, :status, get_status rent)
 
+  # Adds an attribute :days_left to a specific Rent
+  defp add_days_left_to_every_rent(rents), do: for rent <- rents, do: add_days_left_to_rent rent
+
+  # Adds an attribute :days_left to a specific Rent
+  defp add_days_left_to_rent(rent), do: Map.put(rent, :days_left, get_days_left rent)
+
   # Returns the :status of a Rent
   defp get_status(%{book_returned: true}), do: "Returned"
-  
+
   # Returns the :status of a Rent
   defp get_status(%{book_returned: false, due_date: due_date}) do
     case DateTime.compare(due_date, DateTime.utc_now()) do
@@ -95,5 +102,17 @@ defmodule ShareBooksApi.Libraries.RentResolver do
       :lt -> "Expired"
       :eq -> "Expired"
     end
+  end
+
+  # Returns the :days_left of a Rent
+  defp get_days_left(%{book_returned: true}), do: nil
+
+  # Returns the :days_left of a Rent
+  defp get_days_left(%{book_returned: false, status: "Expired"}), do: nil
+
+  # Returns the :days_left of a Rent
+  defp get_days_left(%{book_returned: false, status: "Rented", due_date: due_date}) do
+    diff_days = DateTime.diff(due_date, DateTime.utc_now()) / @seconds_in_a_day
+    Kernel.round(diff_days)
   end
 end
