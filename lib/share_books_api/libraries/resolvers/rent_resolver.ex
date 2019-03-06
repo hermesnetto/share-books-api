@@ -34,7 +34,7 @@ defmodule ShareBooksApi.Libraries.RentResolver do
       rent -> {:ok, rent |> add_status_to_rent |> add_days_left_to_rent}
     end
   end
-  
+
   @doc """
   Rent a Book if it's available or throw an error if it's alredy rented
   """
@@ -44,7 +44,7 @@ defmodule ShareBooksApi.Libraries.RentResolver do
       rent -> {:error, "This Book is already rented!"}
     end
   end
-  
+
   @doc """
   Creates a new Rent
   """
@@ -56,15 +56,16 @@ defmodule ShareBooksApi.Libraries.RentResolver do
         user_id: user_id,
         due_date: due_date
       })
-      
+
     Libraries.create_rent(attrs)
   end
-  
+
   @doc """
   Not authorized to create Rents
   """
-  def rent_book(_parent, _args, %{context: _ctx}), do: {:error, "You need be logged in to rent a book!"}
-  
+  def rent_book(_parent, _args, %{context: _ctx}),
+    do: {:error, "You need be logged in to rent a book!"}
+
   @doc """
   Marks a Rent as returned
   """
@@ -77,20 +78,23 @@ defmodule ShareBooksApi.Libraries.RentResolver do
 
   # Returns all Rents of a specific Book
   defp find_all_by_book(book_id) do
-    {:ok, Libraries.list_rents_by_book(book_id) |> add_status_to_every_rent |> add_days_left_to_every_rent}
+    {:ok,
+     Libraries.list_rents_by_book(book_id)
+     |> add_status_to_every_rent
+     |> add_days_left_to_every_rent}
   end
-  
+
   # Adds an attribute :status in every Rents
-  defp add_status_to_every_rent(rents), do: for rent <- rents, do: add_status_to_rent rent
+  defp add_status_to_every_rent(rents), do: for(rent <- rents, do: add_status_to_rent(rent))
 
   # Adds an attribute :status to a specific Rent
-  defp add_status_to_rent(rent), do: Map.put(rent, :status, get_status rent)
+  defp add_status_to_rent(rent), do: Map.put(rent, :status, get_status(rent))
 
   # Adds an attribute :days_left to a specific Rent
-  defp add_days_left_to_every_rent(rents), do: for rent <- rents, do: add_days_left_to_rent rent
+  defp add_days_left_to_every_rent(rents), do: for(rent <- rents, do: add_days_left_to_rent(rent))
 
   # Adds an attribute :days_left to a specific Rent
-  defp add_days_left_to_rent(rent), do: Map.put(rent, :days_left, get_days_left rent)
+  defp add_days_left_to_rent(rent), do: Map.put(rent, :days_left, get_days_left(rent))
 
   # Returns the :status of a Rent
   defp get_status(%{book_returned: true}), do: "Returned"

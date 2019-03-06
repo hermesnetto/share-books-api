@@ -4,7 +4,7 @@ defmodule ShareBooksApiWeb.Router do
   pipeline :graphql do
     plug CORSPlug, origin: "http://localhost:3000"
   end
-  
+
   scope "/api" do
     pipe_through :graphql
     forward "/graphiql", Absinthe.Plug.GraphiQL, schema: ShareBooksApiWeb.Schema

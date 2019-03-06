@@ -23,7 +23,8 @@ defmodule ShareBooksApi.Libraries.BookResolver do
     Libraries.create_book(args)
   end
 
-  def create(_parent, _args, %{context: _context}), do: {:error, "You need be logged in to create books!"}
+  def create(_parent, _args, %{context: _context}),
+    do: {:error, "You need be logged in to create books!"}
 
   def delete(_parent, %{id: id}, %{context: %{current_user: _current_user}}) do
     case Libraries.delete_book(id) do
@@ -32,7 +33,8 @@ defmodule ShareBooksApi.Libraries.BookResolver do
     end
   end
 
-  def delete(_parent, _args, %{context: _context}), do: {:error, "You need be logged in to delete books!"}
+  def delete(_parent, _args, %{context: _context}),
+    do: {:error, "You need be logged in to delete books!"}
 
   def update(_parent, args, %{context: %{current_user: _current_user}}) do
     book = Libraries.get_book(args.id)
@@ -43,5 +45,6 @@ defmodule ShareBooksApi.Libraries.BookResolver do
     end
   end
 
-  def update(_parent, _args, %{context: _context}), do: {:error, "You need be logged in to update books!"}
+  def update(_parent, _args, %{context: _context}),
+    do: {:error, "You need be logged in to update books!"}
 end

@@ -50,7 +50,7 @@ defmodule ShareBooksApiWeb.Schema do
     @desc "Get all rents of a specific book"
     field :rents, type: list_of(:rent) do
       arg(:book_id, non_null(:id))
-      
+
       resolve(&RentResolver.find_all_by_book_id/2)
     end
 
