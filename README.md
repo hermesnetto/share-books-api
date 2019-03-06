@@ -1,18 +1,8 @@
 # ShareBooksApi
 
-## MVP - About
+## About
 
-- Allows to register one or more users
-  - The user should fill out your name, email and password
-- Allows to register one or more books
-  - The book should has a (title, description, author, publisher, category, quantity, image)
-- Allows a user to rent a book
-  - A user can only rent 3 books per time
-  - A book can only be rented by one user per time
-  - If all units of a book were rented the book should left the available books list
-- Allows a user to return a book
-  -The book should back to the available books list
-- The user can update / delete a book that is not rented at the moment
+This is as WIP project made to study GraphQL with Elixir. This is the API only and the front-end app is being done on https://github.com/hermesnetto/share-books-api.
 
 ## To run the project
 
