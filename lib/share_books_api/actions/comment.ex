@@ -1,4 +1,4 @@
-defmodule ShareBooksApi.Feedbacks.Comment do
+defmodule ShareBooksApi.Actions.Comment do
   use Ecto.Schema
   import Ecto.Changeset
   alias ShareBooksApi.{Accounts, Libraries}

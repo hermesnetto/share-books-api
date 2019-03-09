@@ -7,7 +7,6 @@ defmodule ShareBooksApi.Libraries do
   alias ShareBooksApi.Repo
 
   alias ShareBooksApi.Libraries.Category
-  alias ShareBooksApi.Accounts.User
 
   @doc """
   Returns the list of categories.
@@ -111,67 +110,5 @@ defmodule ShareBooksApi.Libraries do
   """
   def change_book(%Book{} = book) do
     Book.changeset(book, %{})
-  end
-
-  alias ShareBooksApi.Libraries.Rent
-
-  @doc """
-  Returns the list of rents.
-  """
-  def list_rents do
-    Repo.all(Rent)
-  end
-
-  def list_rents_by_book(book_id) do
-    Repo.all(from rent in Rent, where: rent.book_id == ^book_id)
-  end
-
-  @doc """
-  Gets a single rent.
-  """
-  def get_rent(id), do: Repo.get(Rent, id)
-
-  @doc """
-  """
-  def get_rented_book(book_id) do
-    Repo.get_by(Rent, book_id: book_id, book_returned: false)
-  end
-
-  @doc """
-  Creates a rent.
-
-  ## Examples
-  """
-  def create_rent(attrs \\ %{}) do
-    %Rent{}
-    |> Rent.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a rent.
-
-  ## Examples
-  """
-  def update_rent(%Rent{} = rent, attrs) do
-    rent
-    |> Rent.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a Rent.
-
-  ## Examples
-  """
-  def delete_rent(%Rent{} = rent) do
-    Repo.delete(rent)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking rent changes.
-  """
-  def change_rent(%Rent{} = rent) do
-    Rent.changeset(rent, %{})
   end
 end

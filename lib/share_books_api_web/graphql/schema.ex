@@ -1,6 +1,6 @@
 defmodule ShareBooksApiWeb.Schema do
   use Absinthe.Schema
-  alias ShareBooksApiWeb.{Accounts, Libraries, Feedbacks}
+  alias ShareBooksApiWeb.{Accounts, Libraries, Actions}
 
   import_types(ShareBooksApiWeb.Schema.Types)
 
@@ -50,21 +50,21 @@ defmodule ShareBooksApiWeb.Schema do
     field :rents, type: list_of(:rent) do
       arg(:book_id, non_null(:id))
 
-      resolve(&Libraries.RentResolver.find_all_by_book_id/2)
+      resolve(&Actions.RentResolver.find_all_by_book_id/2)
     end
 
     @desc "Get a single rent by its id"
     field :rent, type: :rent do
       arg(:id, non_null(:id))
 
-      resolve(&Libraries.RentResolver.find_by_rent_id/2)
+      resolve(&Actions.RentResolver.find_by_rent_id/2)
     end
 
     @desc "Get all comments of a specific book"
     field :comments, type: list_of(:comment) do
       arg(:book_id, non_null(:id))
 
-      resolve(&Feedbacks.CommentResolver.list_comments_by_book/2)
+      resolve(&Actions.CommentResolver.list_comments_by_book/2)
     end
   end
 
@@ -94,14 +94,14 @@ defmodule ShareBooksApiWeb.Schema do
     field :create_category, type: :category do
       arg(:input, non_null(:create_category_input))
 
-      resolve(&Libraries.CategoryResolver.create/3)
+      resolve(&Libraries.CategoryResolver.create/2)
     end
 
     @desc "Create a book"
     field :create_book, type: :book do
       arg(:input, non_null(:create_book_input))
 
-      resolve(&Libraries.BookResolver.create/3)
+      resolve(&Libraries.BookResolver.create/2)
     end
 
     @desc "Update a book"
@@ -122,28 +122,28 @@ defmodule ShareBooksApiWeb.Schema do
     field :rent_book, type: :rent do
       arg(:book_id, non_null(:id))
 
-      resolve(&Libraries.RentResolver.rent_book_if_available/3)
+      resolve(&Actions.RentResolver.rent_book_if_available/2)
     end
 
     @desc "Give back a Book"
     field :return_book, type: :rent do
       arg(:rent_id, non_null(:id))
 
-      resolve(&Libraries.RentResolver.return_book/2)
+      resolve(&Actions.RentResolver.return_book/2)
     end
 
     @desc "Leave a comment on a Book"
     field :comment, type: :comment do
       arg(:input, non_null(:create_comment_input))
 
-      resolve(&Feedbacks.CommentResolver.create_comment/2)
+      resolve(&Actions.CommentResolver.create_comment/2)
     end
 
     @desc "Update a comment of a Book"
     field :update_comment, type: :comment do
       arg(:input, non_null(:update_comment_input))
 
-      resolve(&Feedbacks.CommentResolver.update_comment/2)
+      resolve(&Actions.CommentResolver.update_comment/2)
     end
   end
 end

@@ -1,6 +1,6 @@
 defmodule ShareBooksApiWeb.Schema.Types do
   use Absinthe.Schema.Notation
-  alias ShareBooksApiWeb.{Accounts, Libraries}
+  alias ShareBooksApiWeb.{Accounts, Libraries, Actions}
 
   @desc "A user of the Library"
   object :user do
@@ -39,11 +39,11 @@ defmodule ShareBooksApiWeb.Schema.Types do
     end
 
     field :rent, :rent do
-      resolve(&Libraries.RentResolver.find_by_book/3)
+      resolve(&Actions.RentResolver.find_by_book/3)
     end
 
     field :rents, list_of(:rent) do
-      resolve(&Libraries.RentResolver.find_all_by_book_id/3)
+      resolve(&Actions.RentResolver.find_all_by_book_id/3)
     end
 
     field :category, :category do
