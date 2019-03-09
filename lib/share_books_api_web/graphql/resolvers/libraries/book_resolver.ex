@@ -19,17 +19,22 @@ defmodule ShareBooksApiWeb.Libraries.BookResolver do
   end
 
   def create(%{input: args}, %{context: %{current_user: current_user}}) do
-    args = Map.put(args, :owner_id, current_user.id)
-    Libraries.create_book(args)
+    Map.put(args, :owner_id, current_user.id) |> Libraries.create_book()
   end
 
   def create(_args, %{context: _context}),
     do: {:error, "You need be logged in to create books!"}
 
   def delete(%{id: id}, %{context: %{current_user: _current_user}}) do
-    case Libraries.delete_book(id) do
-      {:ok, book} -> {:ok, book}
-      {:error, _changeset} -> {:error, "Could not delete the book!"}
+    case Libraries.get_book(id) do
+      nil ->
+        {:error, "Book not found!"}
+
+      book ->
+        case Libraries.delete_book(book) do
+          {:ok, book} -> {:ok, book}
+          {:error, _changeset} -> {:error, "Could not delete the book!"}
+        end
     end
   end
 

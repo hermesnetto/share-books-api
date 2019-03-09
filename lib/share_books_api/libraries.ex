@@ -101,8 +101,8 @@ defmodule ShareBooksApi.Libraries do
   @doc """
   Deletes a Book.
   """
-  def delete_book(id) do
-    Repo.get!(Book, id) |> Repo.delete()
+  def delete_book(%Book{} = book) do
+    Repo.delete(book)
   end
 
   @doc """

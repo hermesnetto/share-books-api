@@ -5,8 +5,7 @@ defmodule ShareBooksApiWeb.Actions.CommentResolver do
     do: {:ok, Actions.list_comments_by_book(book_id)}
 
   def create_comment(%{input: comment}, %{context: %{current_user: user}}) do
-    comment = Map.put(comment, :user_id, user.id)
-    Actions.create_comment(comment)
+    Map.put(comment, :user_id, user.id) |> Actions.create_comment()
   end
 
   def create_comment(_args, %{context: _context}),
@@ -21,9 +20,8 @@ defmodule ShareBooksApiWeb.Actions.CommentResolver do
         case Actions.update_comment(comment, args) do
           {:ok, comment} -> {:ok, comment}
           {:error, _err} -> {:error, "Could not update the comment #{comment.title}"}
-        end        
+        end
     end
-
   end
 
   def update_comment(_args, %{context: _context}),

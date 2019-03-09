@@ -66,6 +66,13 @@ defmodule ShareBooksApiWeb.Schema do
 
       resolve(&Actions.CommentResolver.list_comments_by_book/2)
     end
+
+    @desc "Get everyone waiting to rent a book"
+    field :users_on_queue, type: list_of(:queue) do
+      arg(:book_id, non_null(:id))
+
+      resolve(&Actions.QueueResolver.all_users/2)
+    end
   end
 
   mutation do
@@ -144,6 +151,20 @@ defmodule ShareBooksApiWeb.Schema do
       arg(:input, non_null(:update_comment_input))
 
       resolve(&Actions.CommentResolver.update_comment/2)
+    end
+
+    @desc "Add a user from a queue"
+    field :add_user_on_queue, type: :queue do
+      arg(:input, non_null(:add_user_on_queue_input))
+
+      resolve(&Actions.QueueResolver.add_user/2)
+    end
+
+    @desc "Remove a user from a queue"
+    field :remove_user_from_queue, type: :queue do
+      arg(:input, non_null(:remove_user_from_queue_input))
+
+      resolve(&Actions.QueueResolver.remove_user/2)
     end
   end
 end

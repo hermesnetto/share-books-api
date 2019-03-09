@@ -6,7 +6,7 @@ defmodule ShareBooksApiWeb.Actions.RentResolver do
   @seconds_to_return_book @seconds_in_a_day * @days_allowed_with_book
 
   def find_all_by_book_id(%{id: book_id}, _args, _info), do: find_all_by_book(book_id)
-  
+
   def find_all_by_book_id(%{book_id: book_id}, _info), do: find_all_by_book(book_id)
 
   def find_by_rent_id(%{id: id}, _info) do
@@ -39,7 +39,7 @@ defmodule ShareBooksApiWeb.Actions.RentResolver do
         due_date: due_date
       })
 
-      Actions.create_rent(attrs)
+    Actions.create_rent(attrs)
   end
 
   def rent_book(_args, %{context: _ctx}),
@@ -55,9 +55,9 @@ defmodule ShareBooksApiWeb.Actions.RentResolver do
   # Returns all Rents of a specific Book
   defp find_all_by_book(book_id) do
     {:ok,
-      Actions.list_rents_by_book(book_id)
-      |> add_status_to_every_rent
-      |> add_days_left_to_every_rent}
+     Actions.list_rents_by_book(book_id)
+     |> add_status_to_every_rent
+     |> add_days_left_to_every_rent}
   end
 
   # Adds an attribute :status in every Rents

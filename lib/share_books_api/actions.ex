@@ -65,10 +65,14 @@ defmodule ShareBooksApi.Actions do
     Repo.all(Queue)
   end
 
+  def list_queues_by_book(book_id) do
+    Repo.all(from queue in Queue, where: queue.book_id == ^book_id)
+  end
+
   @doc """
   Gets a single queue.
   """
-  def get_queue!(id), do: Repo.get!(Queue, id)
+  def get_queue(id), do: Repo.get(Queue, id)
 
   @doc """
   Creates a queue.

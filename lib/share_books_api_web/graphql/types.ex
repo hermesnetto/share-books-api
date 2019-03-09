@@ -7,20 +7,14 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :id, :id
     field :name, :string
     field :email, :string
-
-    field :books, list_of(:book) do
-      resolve(&Libraries.BookResolver.all_by_user/3)
-    end
+    field :books, list_of(:book), do: resolve(&Libraries.BookResolver.all_by_user/3)
   end
 
   @desc "A category of a book, used to group related books"
   object :category do
     field :id, :id
     field :title, :string
-
-    field :books, list_of(:book) do
-      resolve(&Libraries.BookResolver.all_by_category/3)
-    end
+    field :books, list_of(:book), do: resolve(&Libraries.BookResolver.all_by_category/3)
   end
 
   @desc "A book"
@@ -33,22 +27,10 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :publication_date, :string
     field :publisher, :string
     field :title, :string
-
-    field :user, :user do
-      resolve(&Accounts.UserResolver.find_by_book/3)
-    end
-
-    field :rent, :rent do
-      resolve(&Actions.RentResolver.find_by_book/3)
-    end
-
-    field :rents, list_of(:rent) do
-      resolve(&Actions.RentResolver.find_all_by_book_id/3)
-    end
-
-    field :category, :category do
-      resolve(&Libraries.CategoryResolver.find_by_book/3)
-    end
+    field :user, :user, do: resolve(&Accounts.UserResolver.find_by_book/3)
+    field :rent, :rent, do: resolve(&Actions.RentResolver.find_by_book/3)
+    field :rents, list_of(:rent), do: resolve(&Actions.RentResolver.find_all_by_book_id/3)
+    field :category, :category, do: resolve(&Libraries.CategoryResolver.find_by_book/3)
   end
 
   @desc "A rent of a book"
@@ -76,6 +58,12 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :id, :id
     field :title, :string
     field :message, :string
+  end
+
+  @desc "User queue to rent a Book"
+  object :queue do
+    field :id, :id
+    field :user, :user, do: resolve(&Accounts.UserResolver.find_by_queue/3)
   end
 
   input_object :create_user_input do
@@ -121,5 +109,13 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :id, non_null(:id)
     field :title, :string
     field :message, :string
+  end
+
+  input_object :add_user_on_queue_input do
+    field :book_id, non_null(:id)
+  end
+
+  input_object :remove_user_from_queue_input do
+    field :id, non_null(:id)
   end
 end
