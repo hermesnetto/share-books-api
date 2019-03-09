@@ -17,7 +17,7 @@ defmodule ShareBooksApiWeb.Accounts.UserResolver do
 
   def create(_parent, %{input: args}, _info), do: Accounts.create_user(args)
 
-  def authorize(%{email: email, password: password}, _info) do
+  def authorize(%{input: %{email: email, password: password}}, _info) do
     with {:ok, user} <- AuthHelper.login_with_email_pass(email, password),
          {:ok, jwt, _} <- Guardian.encode_and_sign(user),
          {:ok, _} <- Accounts.store_token(user, jwt) do

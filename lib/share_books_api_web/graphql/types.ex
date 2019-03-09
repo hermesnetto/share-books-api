@@ -87,6 +87,10 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :category_id, :id
   end
 
+  input_object :delete_book_input do
+    field :id, non_null(:id)
+  end
+
   input_object :update_book_input do
     field :id, non_null(:id)
     field :title, :string
@@ -117,5 +121,18 @@ defmodule ShareBooksApiWeb.Schema.Types do
 
   input_object :remove_user_from_queue_input do
     field :id, non_null(:id)
+  end
+
+  input_object :rent_book_input do
+    field :book_id, non_null(:id)
+  end
+
+  input_object :return_book_input do
+    field :rent_id, non_null(:id)
+  end
+
+  input_object :authorize_user_input do
+    field :email, non_null(:string)
+    field :password, non_null(:string)
   end
 end

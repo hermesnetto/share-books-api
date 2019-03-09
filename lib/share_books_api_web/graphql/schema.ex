@@ -70,16 +70,13 @@ defmodule ShareBooksApiWeb.Schema do
 
   mutation do
     @desc "Authorize a user"
-    field :authorize, type: :session do
-      arg(:email, non_null(:string))
-      arg(:password, non_null(:string))
+    field :authorize, type: :session do      
+      arg(:input, non_null(:authorize_user_input))
 
       resolve(&Accounts.UserResolver.authorize/2)
     end
 
     field :signout, type: :user do
-      arg(:id, non_null(:id))
-
       resolve(&Accounts.UserResolver.signout/2)
     end
 
@@ -113,21 +110,21 @@ defmodule ShareBooksApiWeb.Schema do
 
     @desc "Delete a book"
     field :delete_book, type: :book do
-      arg(:id, non_null(:id))
+      arg(:input, non_null(:delete_book_input))
 
       resolve(&Libraries.BookResolver.delete/2)
     end
 
     @desc "Rent a Book"
     field :rent_book, type: :rent do
-      arg(:book_id, non_null(:id))
+      arg(:input, non_null(:rent_book_input))
 
       resolve(&Actions.RentResolver.rent_book_if_available/2)
     end
 
     @desc "Give back a Book"
     field :return_book, type: :rent do
-      arg(:rent_id, non_null(:id))
+      arg(:input, non_null(:return_book_input))
 
       resolve(&Actions.RentResolver.return_book/2)
     end

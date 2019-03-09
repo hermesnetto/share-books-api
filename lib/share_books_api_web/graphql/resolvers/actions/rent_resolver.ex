@@ -30,23 +30,22 @@ defmodule ShareBooksApiWeb.Actions.RentResolver do
     end
   end
 
-  def rent_book(args, %{id: user_id}) do
+  def rent_book(%{input: args}, %{id: user_id}) do
     due_date = DateTime.utc_now() |> DateTime.add(@seconds_to_return_book, :second)
+    rent = %{
+      user_id: user_id,
+      book_id: args.book_id,
+      due_date: due_date
+    }
 
-    attrs =
-      Map.merge(args, %{
-        user_id: user_id,
-        due_date: due_date
-      })
-
-    Actions.create_rent(attrs)
+    Actions.create_rent(rent)
   end
 
   def rent_book(_args, %{context: _ctx}),
     do: {:error, "You need be logged in to rent a book!"}
 
-  def return_book(%{rent_id: id}, %{context: %{current_user: _user}}) do
-    case Actions.get_rent(id) do
+  def return_book(%{input: args}, %{context: %{current_user: _user}}) do
+    case Actions.get_rent(args.id) do
       nil -> {:error, "Rent not found!"}
       rent -> Actions.update_rent(rent, %{book_returned: true})
     end

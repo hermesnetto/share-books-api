@@ -25,8 +25,8 @@ defmodule ShareBooksApiWeb.Libraries.BookResolver do
   def create(_args, %{context: _context}),
     do: {:error, "You need be logged in to create books!"}
 
-  def delete(%{id: id}, %{context: %{current_user: _current_user}}) do
-    case Libraries.get_book(id) do
+  def delete(%{input: args}, %{context: %{current_user: _current_user}}) do
+    case Libraries.get_book(args.id) do
       nil ->
         {:error, "Book not found!"}
 
