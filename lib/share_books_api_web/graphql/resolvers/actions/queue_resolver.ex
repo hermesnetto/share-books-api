@@ -1,9 +1,6 @@
 defmodule ShareBooksApiWeb.Actions.QueueResolver do
   alias ShareBooksApi.Actions
 
-  def all_users(%{book_id: book_id}, _info),
-    do: {:ok, Actions.list_queues_by_book(book_id)}
-
   def add_user(%{input: args}, %{context: %{current_user: user}}),
     do: Map.put(args, :user_id, user.id) |> Actions.create_queue()
 

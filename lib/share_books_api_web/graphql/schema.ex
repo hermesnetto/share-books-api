@@ -66,13 +66,6 @@ defmodule ShareBooksApiWeb.Schema do
 
       resolve(&Actions.CommentResolver.list_comments_by_book/2)
     end
-
-    @desc "Get everyone waiting to rent a book"
-    field :users_on_queue, type: list_of(:queue) do
-      arg(:book_id, non_null(:id))
-
-      resolve(&Actions.QueueResolver.all_users/2)
-    end
   end
 
   mutation do
