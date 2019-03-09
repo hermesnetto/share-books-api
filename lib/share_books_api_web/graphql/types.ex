@@ -71,6 +71,13 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :token, :string
   end
 
+  @desc "User comments of a Book"
+  object :comment do
+    field :id, :id
+    field :title, :string
+    field :message, :string
+  end
+
   input_object :create_user_input do
     field :name, non_null(:string)
     field :email, non_null(:string)
@@ -102,5 +109,17 @@ defmodule ShareBooksApiWeb.Schema.Types do
     field :publication_date, :string
     field :publisher, :string
     field :category_id, :id
+  end
+
+  input_object :create_comment_input do
+    field :book_id, non_null(:id)
+    field :title, non_null(:string)
+    field :message, non_null(:string)
+  end
+
+  input_object :update_comment_input do
+    field :id, non_null(:id)
+    field :title, :string
+    field :message, :string
   end
 end

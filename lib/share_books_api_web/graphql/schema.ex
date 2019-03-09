@@ -1,6 +1,6 @@
 defmodule ShareBooksApiWeb.Schema do
   use Absinthe.Schema
-  alias ShareBooksApiWeb.{Accounts, Libraries}
+  alias ShareBooksApiWeb.{Accounts, Libraries, Feedbacks}
 
   import_types(ShareBooksApiWeb.Schema.Types)
 
@@ -59,6 +59,13 @@ defmodule ShareBooksApiWeb.Schema do
 
       resolve(&Libraries.RentResolver.find_by_rent_id/2)
     end
+
+    @desc "Get all comments of a specific book"
+    field :comments, type: list_of(:comment) do
+      arg(:book_id, non_null(:id))
+
+      resolve(&Feedbacks.CommentResolver.list_comments_by_book/2)
+    end
   end
 
   mutation do
@@ -101,14 +108,14 @@ defmodule ShareBooksApiWeb.Schema do
     field :update_book, type: :book do
       arg(:input, non_null(:update_book_input))
 
-      resolve(&Libraries.BookResolver.update/3)
+      resolve(&Libraries.BookResolver.update/2)
     end
 
     @desc "Delete a book"
     field :delete_book, type: :book do
       arg(:id, non_null(:id))
 
-      resolve(&Libraries.BookResolver.delete/3)
+      resolve(&Libraries.BookResolver.delete/2)
     end
 
     @desc "Rent a Book"
@@ -123,6 +130,20 @@ defmodule ShareBooksApiWeb.Schema do
       arg(:rent_id, non_null(:id))
 
       resolve(&Libraries.RentResolver.return_book/2)
+    end
+
+    @desc "Leave a comment on a Book"
+    field :comment, type: :comment do
+      arg(:input, non_null(:create_comment_input))
+
+      resolve(&Feedbacks.CommentResolver.create_comment/2)
+    end
+
+    @desc "Update a comment of a Book"
+    field :update_comment, type: :comment do
+      arg(:input, non_null(:update_comment_input))
+
+      resolve(&Feedbacks.CommentResolver.update_comment/2)
     end
   end
 end

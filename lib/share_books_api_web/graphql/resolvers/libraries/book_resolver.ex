@@ -29,22 +29,26 @@ defmodule ShareBooksApiWeb.Libraries.BookResolver do
   def delete(_parent, %{id: id}, %{context: %{current_user: _current_user}}) do
     case Libraries.delete_book(id) do
       {:ok, book} -> {:ok, book}
-      {:error, _changeset} -> {:error, "Something went wrong"}
+      {:error, _changeset} -> {:error, "Could not delete the book!"}
     end
   end
 
   def delete(_parent, _args, %{context: _context}),
     do: {:error, "You need be logged in to delete books!"}
 
-  def update(_parent, %{input: args}, %{context: %{current_user: _current_user}}) do
-    book = Libraries.get_book(args.id)
+  def update(%{input: args}, %{context: %{current_user: _current_user}}) do
+    case Libraries.get_book(args.id) do
+      nil ->
+        {:error, "Book not found!"}
 
-    case Libraries.update_book(book, args) do
-      {:ok, book} -> {:ok, book}
-      {:error, _err} -> {:error, "Something went wrong"}
+      book ->
+        case Libraries.update_book(book, args) do
+          {:ok, book} -> {:ok, book}
+          {:error, _err} -> {:error, "Could not update the book!"}
+        end
     end
   end
 
-  def update(_parent, _args, %{context: _context}),
+  def update(_args, %{context: _context}),
     do: {:error, "You need be logged in to update books!"}
 end
